@@ -62,7 +62,10 @@ module.exports = {
     approveAppointment: (req, res) => {
         let {apptId} = req.body
     
-        sequelize.query(`*****YOUR CODE HERE*****
+        sequelize.query(`
+        UPDATE cc_appointments
+        SET approved = true
+        WHERE appt_id = '${apptId}'; 
         
         insert into cc_emp_appts (emp_id, appt_id)
         values (${nextEmp}, ${apptId}),
@@ -74,5 +77,15 @@ module.exports = {
             })
             .catch(err => console.log(err))
     },
+
+    completeAppointment: (res, req) => {
+        sequelize.query(`
+        UPDATE cc_appointments
+        SET completed = true
+        WHERE appt_id = '${apptId}'
+        `)
+        .then(dbRes => res.status(200).send(dbRes[0]))
+        .catch (err => console.log(err))
+    }
 
 }
